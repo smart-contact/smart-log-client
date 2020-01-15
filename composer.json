@@ -1,0 +1,28 @@
+{
+    "name": "smart-contact/smart-log-client",
+    "description": "Client for send log to Smart Log Application",
+    "version": "1.0.0",
+    "keywords": [ ],
+    "type": "library",
+    "require": {
+        "seagulltools/seagull-http": "dev-master",
+        "jenssegers/agent": "^2.6"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matteo Meloni",
+            "email": "matteo.meloni@smart-contact.it"
+        },
+        {
+            "name": "Andrea Ortu",
+            "email": "andrea.ortu@smart-contact.it"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "SmartLogClient\\": "src"
+        }
+    }
+}
