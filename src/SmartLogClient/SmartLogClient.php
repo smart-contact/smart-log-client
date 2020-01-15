@@ -5,9 +5,8 @@ namespace SmartLogClient;
 use Carbon\Carbon;
 use Jenssegers\Agent\Agent;
 use Seagulltools\Http\Client as HttpClient;
-use Seagulltools\Http\Exception\ApiException;
 
-class Client
+class SmartLogClient
 {
     /**
      * @var HttpClient
@@ -72,7 +71,7 @@ class Client
     private function initHttpClient()
     {
         $httpClient = new HttpClient();
-        $httpClient->url = config('smartlog.url') . "/{$this->channel}/logs";
+        $httpClient->url = config('smartlog.url') . "/api/v1/{$this->channel}/logs";
         $httpClient->method = 'POST';
 
         $httpClient->headers([

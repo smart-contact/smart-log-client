@@ -15,6 +15,6 @@ class SmartLogClientServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->app->make('SmartLogClient\Client');
+        $this->app->make('SmartLogClient\SmartLogClient');
     }
 }
