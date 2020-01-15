@@ -1,6 +1,6 @@
-#Smart Log Client
+# Smart Log Client
 
-###Installation
+### Installation
 Require this package in the composer.json of your Laravel project. This will download the package.
 
 `composer require smart-contact/smart-log-client`
@@ -15,7 +15,7 @@ To publish the config, run the vendor publish command:
 This will create a new config file named config/smartlog.php.
 
 
-###Available Log Level
+### Available Log Level
 ```php
 SmartLogClient::emergency($data);
 SmartLogClient::critical($data);
@@ -26,7 +26,7 @@ SmartLogClient::info($data);
 SmartLogClient::debug($data);
 ```
 
-###Usage
+### Usage
 ```php
 SmartLogClient::info([
     'user' => 'John Doe', //required
@@ -43,5 +43,3 @@ SmartLogClient::info([
     'platform_version' => 'PLATFORM VERSION', //default null
 ]);
 ```
-
-
