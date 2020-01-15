@@ -5,6 +5,11 @@ Require this package in the composer.json of your Laravel project. This will dow
 
 `composer require smart-contact/smart-log-client`
 
+<br/>
+
+Add the ServiceProvider in config/app.php:
+
+`\SmartLogClient\SmartLogClientServiceProvider::class`
 
 <br/>
 
