@@ -103,9 +103,13 @@ class SmartLogClient
             $this->httpClient->send();
 
             if ( $this->httpClient->getStatusCode() === 200 ) {
-                return true;
-            } else {
                 return $this->httpClient->getResponse();
+            } else {
+                return [
+                    'registered' => false,
+                    'code' => $this->httpClient->getStatusCode(),
+                    'message' => $this->httpClient->getResponse()
+                ];
             }
         }
         catch (\Exception $e) {
