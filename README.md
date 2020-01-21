@@ -39,7 +39,7 @@ SmartLogClient::info([
     'ip' => 'IP ADDRESS', //required
     'registered_at' => 'Y-m-d H:i:s', //default now()
     'log' => [
-        'key' => 'value'
+        'key' => 'value',
     ],
     'user_agent' => 'USER AGENT', //default Jenssegers\Agent::getUserAgent, 
     'browser' => 'BROWSER', //default Jenssegers\Agent::browser
