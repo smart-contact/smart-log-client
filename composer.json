@@ -1,7 +1,6 @@
 {
     "name": "smart-contact/smart-log-client",
     "description": "Client for send log to Smart Log Application",
-    "version": "1.0.0",
     "keywords": [ ],
     "type": "library",
     "require": {
