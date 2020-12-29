@@ -117,7 +117,7 @@ class SmartLogClient
             'user' => $this->data['user'],
             'status_code' => $this->data['status_code'] ?? null,
             'level' => $level,
-            'level_code' => $level,
+            'level_code' => $this->data['level_code'],
             'ip' => $this->data['ip'],
             'description' => $this->data['description'] ,
             'log' => $this->data['log'] ?? null,
