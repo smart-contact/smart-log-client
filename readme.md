@@ -17,7 +17,9 @@ $ composer require smart-contact/smart-log-client
 ## Usage
 ```php
 SmartLogClient::report([
-    'level' => 'info',
+    'level' => 'info', //required
+    'level_code' => '', //required
+    'status_code' => '',
     'user' => 'John Doe', //required
     'description' => 'New Log Line', //required
     'ip' => 'IP ADDRESS', //required
@@ -25,6 +27,10 @@ SmartLogClient::report([
     'log' => [
         'key' => 'value',
     ],
+    'extra' => [
+        'key' => 'value',
+    ],
+    'formatted' => '',
     'user_agent' => 'USER AGENT', //default Jenssegers\Agent::getUserAgent, 
     'browser' => 'BROWSER', //default Jenssegers\Agent::browser
     'browser_version' => 'BROWSER VERSION', //default Jenssegers\Agent::version
@@ -35,6 +41,7 @@ SmartLogClient::report([
 
 ```php
 SmartLogClient::info([
+    'status_code' => '',
     'user' => 'John Doe', //required
     'description' => 'New Log Line', //required
     'ip' => 'IP ADDRESS', //required
@@ -42,6 +49,10 @@ SmartLogClient::info([
     'log' => [
         'key' => 'value',
     ],
+    'extra' => [
+        'key' => 'value',
+    ],
+    'formatted' => '',
     'user_agent' => 'USER AGENT', //default Jenssegers\Agent::getUserAgent, 
     'browser' => 'BROWSER', //default Jenssegers\Agent::browser
     'browser_version' => 'BROWSER VERSION', //default Jenssegers\Agent::version
