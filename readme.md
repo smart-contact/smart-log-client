@@ -14,6 +14,12 @@ Via Composer
 $ composer require smart-contact/smart-log-client
 ```
 
+To publish the config, run the vendor publish command:
+
+``` shell script
+php artisan vendor:publish --provider="SmartLogClient\SmartLogClientServiceProvider"
+```
+
 ## Usage
 ```php
 SmartLogClient::report([
