@@ -61,6 +61,24 @@ SmartLogClient::info($data);
 SmartLogClient::debug($data);
 ```
 
+### Laravel Custom Logging Channel
+Apply these changes to the file
+```php
+'stack' => [
+    'driver' => 'stack',
+    'channels' => ['smartlog','single'],
+    'ignore_exceptions' => false,
+],
+
+//Custom Channel
+'smartlog' => [
+    'driver' => 'custom',
+    'handler' => \SmartContact\SmartLogClient\Logging\SmartLogHandler::class,
+    'via' => \SmartContact\SmartLogClient\Logging\SmartLogLogger::class
+],
+```
+
+
 ## Change log
 
 Please see the [changelog](changelog.md) for more information on what has changed recently.

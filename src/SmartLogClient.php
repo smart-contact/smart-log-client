@@ -35,6 +35,7 @@ class SmartLogClient
         'notice',
         'info',
         'debug',
+        'success',
     ];
 
     /**
