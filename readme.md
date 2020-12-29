@@ -62,7 +62,7 @@ SmartLogClient::debug($data);
 ```
 
 ### Laravel Custom Logging Channel
-Apply these changes to the file
+Apply these changes to the file config/logging.php
 ```php
 'stack' => [
     'driver' => 'stack',
