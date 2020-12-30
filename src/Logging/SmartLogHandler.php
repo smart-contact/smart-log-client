@@ -17,7 +17,7 @@ class SmartLogHandler extends AbstractProcessingHandler
     protected function write(array $record): void
     {
         $data = [
-            'user' => auth()->user() ? auth()->user()->id : null,
+            'user' => auth()->user() ? auth()->user()->email : null,
             'status_code' => Arr::has($record['context'], 'status_code') ? $record['context']['status_code'] : null,
             'level' => Str::lower($record['level_name']),
             'level_code' => $record['level'],
