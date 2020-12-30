@@ -23,8 +23,9 @@ class SmartLogHandler extends AbstractProcessingHandler
             'level_code' => $record['level'],
             'ip' => '127.0.0.1',
             'description' => $record['message'],
-            'log' => $record['context'],
-            'extra' => $record['extra'],
+            'log' => $record['context']['context'] ?? null,
+            'incident_code' => $record['context']['incident_code'] ?? null,
+            'extra' => request()->input(),
             'formatted' => $record['formatted'],
         ];
 

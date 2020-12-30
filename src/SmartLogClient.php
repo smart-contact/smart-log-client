@@ -115,6 +115,7 @@ class SmartLogClient
         $platform = $device->platform();
 
         return [
+            'incident_code' => $this->data['incident_code'],
             'user' => $this->data['user'],
             'status_code' => $this->data['status_code'] ?? null,
             'level' => $level,
