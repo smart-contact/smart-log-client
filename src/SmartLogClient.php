@@ -4,8 +4,11 @@ namespace SmartContact\SmartLogClient;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Jenssegers\Agent\Agent;
+use Monolog\Logger as Monolog;
 
 class SmartLogClient
 {
@@ -38,6 +41,18 @@ class SmartLogClient
         'success',
     ];
 
+    const LEVEL_CODE = [
+        'emergency' => Monolog::EMERGENCY,
+        'alert' => Monolog::ALERT,
+        'critical' => Monolog::CRITICAL,
+        'error' => Monolog::ERROR,
+        'warning' => Monolog::WARNING,
+        'notice' => Monolog::NOTICE,
+        'info' => Monolog::INFO,
+        'debug' => Monolog::DEBUG,
+        'success' => 1,
+    ];
+
     /**
      * Client constructor.
      * @param array $data
@@ -61,11 +76,11 @@ class SmartLogClient
      */
     public static function __callStatic($name, $arguments)
     {
-        if($name === 'record') {
+        if ($name === 'record') {
             $name = Arr::pull($arguments[0], 'level');
         }
 
-        if (! in_array($name, self::LEVEL)) {
+        if (!in_array($name, self::LEVEL)) {
             throw new \Exception('Log Level Invalid');
         }
 
@@ -98,8 +113,7 @@ class SmartLogClient
                     'message' => $this->httpClient->getResponse()
                 ];
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
@@ -115,16 +129,16 @@ class SmartLogClient
         $platform = $device->platform();
 
         return [
-            'incident_code' => $this->data['incident_code'],
+            'incident_code' => $this->data['incident_code'] ?? null,
             'user' => $this->data['user'],
             'status_code' => $this->data['status_code'] ?? null,
             'level' => $level,
-            'level_code' => $this->data['level_code'],
-            'ip' => $this->data['ip'],
-            'description' => $this->data['description'] ,
+            'level_code' => $this->data['level_code'] ?? self::LEVEL_CODE[$level],
+            'ip' => $this->data['ip'] ?? self::getClientIpAddress(),
+            'description' => $this->data['description'],
             'log' => $this->data['log'] ?? null,
             'extra' => $this->data['extra'] ?? null,
-            'formatted' => $this->data['formatted'] ?? null,
+            'formatted' => $this->data['formatted'] ?? self::getFormatted($level),
             'registered_at' => $this->data['registered_at'] ?? Carbon::now()->format('Y-m-d H:i:s'),
             'user_agent' => $this->data['user_agent'] ?? $device->getUserAgent(),
             'browser' => $this->data['browser'] ?? (($browser) ? $browser : null),
@@ -134,4 +148,26 @@ class SmartLogClient
         ];
     }
 
+    public static function getClientIpAddress()
+    {
+        return request()->server->get('HTTP_X_FORWARDED_FOR') ?
+            explode(',', request()->server->get('HTTP_X_FORWARDED_FOR'))[0] :
+            request()->server->get('REMOTE_ADDR');
+    }
+
+    /**
+     * @param $level
+     * @return string
+     */
+    public function getFormatted($level): string
+    {
+        $dateTime = now()->format('Y-m-d\TH:i:s.uP');
+        $channel = App::environment();
+        $level = Str::upper($level);
+        $description = $this->data['description'];
+        $context = isset($this->data['log']) ? json_encode($this->data['log']) : null;
+        $extra = isset($this->data['extra']) ? json_encode($this->data['extra']) : null;
+
+        return "[$dateTime] {$channel}.{$level}: {$description} {$context} {$extra}";
+    }
 }

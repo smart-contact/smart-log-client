@@ -37,6 +37,8 @@ class SmartLogClientServiceProvider extends ServiceProvider
         $this->app->singleton('smart-log-client', function ($app) {
             return new SmartLogClient;
         });
+
+        $this->app->register(SmartLogClientEventServiceProvider::class);
     }
 
     /**

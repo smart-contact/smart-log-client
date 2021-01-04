@@ -9,11 +9,31 @@ use SmartContact\SmartLogClient\SmartLogClient;
 
 class SmartLogHandler extends AbstractProcessingHandler
 {
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
+    ];
+
+    /**
+     * SmartLogHandler constructor.
+     * @param string $level
+     * @param bool $bubble
+     */
     public function __construct($level = 'DEBUG', $bubble = true)
     {
+        $this->dontFlash = array_merge($this->dontFlash, config('smart-log-client.dontFlash'));
+
         parent::__construct($level, $bubble);
     }
 
+    /**
+     * @param array $record
+     */
     protected function write(array $record): void
     {
         $data = [
@@ -21,11 +41,11 @@ class SmartLogHandler extends AbstractProcessingHandler
             'status_code' => Arr::has($record['context'], 'status_code') ? $record['context']['status_code'] : null,
             'level' => Str::lower($record['level_name']),
             'level_code' => $record['level'],
-            'ip' => '127.0.0.1',
+            'ip' => SmartLogClient::getClientIpAddress(),
             'description' => $record['message'],
             'log' => $record['context']['context'] ?? null,
             'incident_code' => $record['context']['incident_code'] ?? null,
-            'extra' => request()->input(),
+            'extra' => request()->except($this->dontFlash),
             'formatted' => $record['formatted'],
         ];
 
