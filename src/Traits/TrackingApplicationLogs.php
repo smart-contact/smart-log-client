@@ -2,6 +2,7 @@
 
 namespace SmartContact\SmartLogClient\Traits;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use ReflectionClass;
 use SmartContact\SmartLogClient\SmartLogClient;
@@ -84,16 +85,21 @@ trait TrackingApplicationLogs
      */
     protected static function getModelEvents(): array
     {
+        $hasSoftDeletes = in_array(
+            SoftDeletes::class,
+            (new ReflectionClass(self::class))->getTraitNames()
+        );
+
+        $defaultsEvents = ['created', 'updated', 'deleted'];
+
+        if ($hasSoftDeletes) {
+            $defaultsEvents[] = 'restored';
+        }
+
         if (isset(static::$recordEvents)) {
             return static::$recordEvents;
         }
 
-        return [
-            'retrieved',
-            'created',
-            'updated',
-            'deleted',
-            'restored'
-        ];
+        return $defaultsEvents;
     }
 }

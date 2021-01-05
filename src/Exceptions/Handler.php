@@ -1,4 +1,5 @@
 <?php
+namespace SmartContact\SmartLogClient\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -6,6 +7,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -33,27 +35,28 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param \Throwable $e
+     * @param Throwable  $e
      * @return void
      *
-     * @throws \Exception
+     * @throws Throwable
      */
     public function report(Throwable $e)
     {
         if (App::environment() != 'testing') {
+            $this->incidentCode = Str::uuid()->toString();
             $exceptionClass = get_class($e);
 
             switch ($exceptionClass) {
                 case AuthenticationException::class:
                 case AuthorizationException::class:
                     Log::warning($e->getMessage(), [
-                        'incident_code' => Str::uuid()->toString(),
+                        'incident_code' => $this->incidentCode,
                         'context' => ['url' => url()->current()]
                     ]);
                     break;
                 default:
                     Log::emergency($e->getMessage(), [
-                            'incident_code' => Str::uuid()->toString(),
+                            'incident_code' => $this->incidentCode,
                             'context' => $e->getTrace()
                         ]
                     );
@@ -62,4 +65,13 @@ class Handler extends ExceptionHandler
         }
     }
 
+    /**
+     * Register the exception handling callbacks for the application.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
 }

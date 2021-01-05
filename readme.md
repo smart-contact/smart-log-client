@@ -95,6 +95,41 @@ Apply these changes to the file config/logging.php
 ],
 ```
 
+### Use SmartLog Exceptions Handler
+Apply these changes to the file app/Exceptions/Handler.php
+```php
+namespace App\Exceptions;
+
+class Handler extends \SmartContact\SmartLogClient\Exceptions\Handler
+{
+
+}
+```
+
+### Track Model's event
+Include the Trait `SmartContact\SmartLogClient\Traits\TrackingApplicationLogs` in the Model that you want to trace
+
+```php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use SmartContact\SmartLogClient\Traits\TrackingApplicationLogs;
+
+class Order extends Model
+{
+    use HasFactory, TrackingApplicationLogs;
+    
+    //Default
+    public static $recordEvents = [
+        'retrieved', 
+        'created', 
+        'updated',
+        'deleted',
+        'restored' // if the model include SoftDeletes trait
+    ];
+}
+```
 
 ## Change log
 
