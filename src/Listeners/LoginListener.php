@@ -28,6 +28,7 @@ class LoginListener
     public function handle(Login $event)
     {
         $data = [
+            'is_application_log' => 1,
             'user' => $event->user->email,
             'description' => 'Logged In.',
         ];

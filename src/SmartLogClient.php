@@ -129,6 +129,7 @@ class SmartLogClient
         $platform = $device->platform();
 
         return [
+            'is_application_log' => $this->data['is_application_log'] ?? false,
             'incident_code' => $this->data['incident_code'] ?? null,
             'user' => $this->data['user'],
             'status_code' => $this->data['status_code'] ?? null,

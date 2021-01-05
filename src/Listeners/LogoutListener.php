@@ -28,6 +28,7 @@ class LogoutListener
     public function handle(Logout $event)
     {
         $data = [
+            'is_application_log' => 1,
             'user' => $event->user->email,
             'description' => 'Logged Out.',
         ];

@@ -56,6 +56,7 @@ trait TrackingApplicationLogs
     protected function registerApplicationLog($event = null)
     {
         SmartLogClient::info([
+            'is_application_log' => 1,
             'user' => auth()->user() ? auth()->user()->email : null,
             'description' => $this->getApplicationLogDescription($this, $event),
             'log' => $this->applicationLogsChanges(),
