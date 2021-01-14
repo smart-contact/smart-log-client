@@ -7,6 +7,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -52,6 +53,14 @@ class Handler extends ExceptionHandler
                     Log::warning($e->getMessage(), [
                         'incident_code' => $this->incidentCode,
                         'context' => ['url' => url()->current()]
+                    ]);
+                    break;
+                case NotFoundHttpException::class:
+                    $message = 'HTTP 404 Not Found';
+
+                    Log::notice($message,[
+                        'incident_code' => $this->incidentCode,
+                        'context' => [ 'Request URI' => request()->getRequestUri()]
                     ]);
                     break;
                 default:
