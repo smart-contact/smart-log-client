@@ -135,6 +135,7 @@ class SmartLogClient
             'status_code' => $this->data['status_code'] ?? null,
             'level' => $level,
             'level_code' => $this->data['level_code'] ?? self::LEVEL_CODE[$level],
+            'referrer' => $this->data['referer'] ?? request()->server->get('HTTP_REFERER'),
             'ip' => $this->data['ip'] ?? self::getClientIpAddress(),
             'description' => $this->data['description'],
             'log' => $this->data['log'] ?? null,
