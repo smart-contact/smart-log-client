@@ -41,7 +41,7 @@ class SmartLogHandler extends AbstractProcessingHandler
             'status_code' => Arr::has($record['context'], 'status_code') ? $record['context']['status_code'] : null,
             'level' => Str::lower($record['level_name']),
             'level_code' => $record['level'],
-            'referrer' => request()->server->get('HTTP_REFERER') ?? '--',
+            'referer' => request()->server->get('HTTP_REFERER') ?? '--',
             'ip' => SmartLogClient::getClientIpAddress(),
             'description' => $record['message'],
             'log' => $record['context']['context'] ?? null,
